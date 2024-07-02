@@ -58,5 +58,5 @@ sonar-scanner \
   -Dsonar.projectKey=enzo-pellegrini_macos-cmake-otherci-sc \
   -Dsonar.sources=. \
   -Dsonar.cfamily.compile-commands=bw-output/compile_commands.json \
-  -Dsonar.host.url=http://localhost:3000
+  -Dsonar.host.url=https://sonarcloud.io
   
