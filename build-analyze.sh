@@ -46,6 +46,14 @@ export PATH=$SONAR_SCANNER_HOME/bin:$PATH
 export SONAR_SCANNER_OPTS="-server"
 
 
+# Setup the build system
+rm -rf build
+mkdir build
+cmake -B build
+
+# Build inside the build-wrapper
+build-wrapper-macosx-x86 --out-dir bw-output cmake --build build --config Release
+
 sonar-scanner \
   -Dsonar.projectKey=linux-cmake-gitlab-ci-sc \
   -Dsonar.sources=. \
