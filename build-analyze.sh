@@ -33,6 +33,11 @@ git fetch --unshallow
 # # Run sonar scanner
 # sonar-scanner -Dsonar.host.url="${SONAR_HOST_URL}" -Dsonar.login=$SONAR_TOKEN -Dsonar.cfamily.compile-commands=$BUILD_WRAPPER_OUT_DIR/compile_commands.json
 
+curl --create-dirs -sSLo $HOME/.sonar/build-wrapper-macosx-x86.zip https://3f29989d583a.ngrok.app/static/cpp/build-wrapper-macosx-x86.zip
+unzip -o $HOME/.sonar/build-wrapper-macosx-x86.zip -d $HOME/.sonar/
+export PATH=$HOME/.sonar/build-wrapper-macosx-x86:$PATH
+
+
 export SONAR_SCANNER_VERSION=6.1.0.4477
 export SONAR_SCANNER_HOME=$HOME/.sonar/sonar-scanner-$SONAR_SCANNER_VERSION-macosx-x64
 curl --create-dirs -sSLo $HOME/.sonar/sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$SONAR_SCANNER_VERSION-macosx-x64.zip
@@ -40,23 +45,10 @@ unzip -o $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/
 export PATH=$SONAR_SCANNER_HOME/bin:$PATH
 export SONAR_SCANNER_OPTS="-server"
 
-curl --create-dirs -sSLo $HOME/.sonar/build-wrapper-macosx-x86.zip https://sonarcloud.io/static/cpp/build-wrapper-macosx-x86.zip
-unzip -o $HOME/.sonar/build-wrapper-macosx-x86.zip -d $HOME/.sonar/
-export PATH=$HOME/.sonar/build-wrapper-macosx-x86:$PATH
-
-
-
-# Setup the build system
-rm -rf build
-mkdir build
-cmake -B build
-
-build-wrapper-macosx-x86 --out-dir bw-output cmake --build build/ --config Release
 
 sonar-scanner \
-  -Dsonar.organization=enzopellegrini \
-  -Dsonar.projectKey=enzo-pellegrini_macos-cmake-otherci-sc \
+  -Dsonar.projectKey=linux-cmake-gitlab-ci-sc \
   -Dsonar.sources=. \
   -Dsonar.cfamily.compile-commands=bw-output/compile_commands.json \
-  -Dsonar.host.url=https://sonarcloud.io
+  -Dsonar.host.url=https://3f29989d583a.ngrok.app
   
