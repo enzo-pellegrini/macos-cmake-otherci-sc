@@ -44,7 +44,11 @@ curl --create-dirs -sSLo $HOME/.sonar/build-wrapper-macosx-x86.zip https://sonar
 unzip -o $HOME/.sonar/build-wrapper-macosx-x86.zip -d $HOME/.sonar/
 export PATH=$HOME/.sonar/build-wrapper-macosx-x86:$PATH
 
-
+# Hack to always return arm64 from uname -m
+pushd deceipt
+clang uname.c -o uname
+export PATH=$PWD:$PATH
+popd
 
 # Setup the build system
 rm -rf build
